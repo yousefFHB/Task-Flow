@@ -1,0 +1,117 @@
+{
+  "auth": {
+    "loginSuccess": "Login successful",
+    "registerSuccess": "User registered successfully",
+    "invalidCredentials": "Invalid phone number or password",
+    "userNotFound": "User not found",
+    "userAlreadyExists": "A user with this phone number already exists",
+    "tokenExpired": "Authentication token has expired. Please log in again.",
+    "invalidToken": "Invalid authentication token. Please log in again.",
+    "unauthorized": "Authentication token is missing. Please log in.",
+    "userNoLongerExists": "The user belonging to this token no longer exists.",
+    "verificationCodeSent": "Verification code sent successfully",
+    "codeResendSuccess": "Verification code resent successfully",
+    "passwordResetSuccess": "Password changed successfully",
+    "invalidVerificationCode": "Invalid or expired verification code",
+    "configMissing": "Authentication configuration missing on server."
+  },
+  "validation": {
+    "queryRequired": "Search query is required",
+    "pageInvalid": "Page must be a positive integer greater than zero",
+    "limitInvalid": "Items per page must be an integer between 1 and 100",
+    "idInvalid": "Identifier must be a valid positive integer",
+    "nameRequired": "Name is required",
+    "nameLength": "Name must be between 2 and 50 characters",
+    "nameCannotBeEmpty": "Name cannot be empty",
+    "phoneRequired": "Phone number is required",
+    "phoneInvalid": "Invalid mobile phone number (e.g. 09123456789)",
+    "passwordRequired": "Password is required",
+    "passwordLength": "Password must be at least 6 characters",
+    "codeRequired": "Verification code is required",
+    "codeLength": "Code must be between 4 and 6 digits",
+    "companyNameRequired": "Company name is required",
+    "companyNameLength": "Company name must be between 2 and 100 characters",
+    "roleInvalid": "Role must be one of: OWNER, ADMIN, MEMBER",
+    "sortInvalid": "Sort parameter must be a string",
+    "localeInvalid": "Locale must be either 'en' or 'fa'",
+    "validationFailed": "Validation failed"
+  },
+  "users": {
+    "fetchedSuccess": "User fetched successfully",
+    "profileUpdatedSuccess": "Profile updated successfully",
+    "userDeletedSuccess": "User account deleted successfully",
+    "notFound": "User not found"
+  },
+  "company": {
+    "createdSuccess": "Company created successfully",
+    "updatedSuccess": "Company updated successfully",
+    "deletedSuccess": "Company deleted successfully",
+    "notFound": "Company not found",
+    "memberAdded": "Member added to company successfully",
+    "memberRemoved": "Member removed from company successfully",
+    "roleUpdated": "Member role updated successfully",
+    "leftSuccess": "Successfully left the company",
+    "cannotLeaveAsOwner": "Company owner cannot leave without transferring ownership first"
+  },
+  "projects": {
+    "fetchedSuccess": "Projects fetched successfully",
+    "createdSuccess": "Project created successfully",
+    "updatedSuccess": "Project updated successfully",
+    "deletedSuccess": "Project deleted successfully",
+    "notFound": "Project not found",
+    "memberAdded": "Member added to project successfully",
+    "memberRemoved": "Member removed from project successfully"
+  },
+  "teams": {
+    "fetchedSuccess": "Teams fetched successfully",
+    "createdSuccess": "Team created successfully",
+    "updatedSuccess": "Team updated successfully",
+    "deletedSuccess": "Team deleted successfully",
+    "notFound": "Team not found",
+    "memberAdded": "Member added to team successfully",
+    "memberRemoved": "Member removed from team successfully"
+  },
+  "tasks": {
+    "fetchedSuccess": "Tasks fetched successfully",
+    "createdSuccess": "Task created successfully",
+    "updatedSuccess": "Task updated successfully",
+    "deletedSuccess": "Task deleted successfully",
+    "notFound": "Task not found",
+    "invalidStatus": "Invalid task status",
+    "invalidPriority": "Invalid task priority"
+  },
+  "timeTracking": {
+    "createdSuccess": "Time entry recorded successfully",
+    "updatedSuccess": "Time entry updated successfully",
+    "deletedSuccess": "Time entry deleted successfully",
+    "notFound": "Time entry not found",
+    "invalidDuration": "Duration must be a positive integer in minutes",
+    "projectRequired": "Project ID is required",
+    "accessDenied": "You do not have access to this project",
+    "cannotModifyOthers": "You can only edit or delete your own time entries",
+    "summaryFetched": "Time summary fetched successfully",
+    "fetchedSuccess": "Time entries fetched successfully"
+  },
+  "comments": {
+    "createdSuccess": "Comment added successfully",
+    "updatedSuccess": "Comment updated successfully",
+    "deletedSuccess": "Comment deleted successfully",
+    "notFound": "Comment not found",
+    "contentRequired": "Comment content cannot be empty",
+    "cannotModifyOthers": "You can only edit or delete your own comments",
+    "fetchedSuccess": "Comments fetched successfully"
+  },
+  "taskHistory": {
+    "fetchedSuccess": "Task history fetched successfully"
+  },
+  "notifications": {
+    "fetchedSuccess": "Notifications fetched successfully",
+    "markedReadSuccess": "Notification marked as read",
+    "markedAllReadSuccess": "All notifications marked as read",
+    "notFound": "Notification not found"
+  },
+  "system": {
+    "healthy": "System is healthy",
+    "internalServerError": "An internal server error occurred. Please try again later."
+  }
+}

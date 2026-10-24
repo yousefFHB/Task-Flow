@@ -1,0 +1,390 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum CompanyMemberRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+enum TeamMemberRole {
+  LEAD
+  MEMBER
+}
+
+enum ProjectMemberRole {
+  MANAGER
+  DEVELOPER
+  VIEWER
+}
+
+enum SprintStatus {
+  PLANNED
+  ACTIVE
+  COMPLETED
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+  REVIEW
+  CANCEL
+}
+
+enum TaskPriority {
+  HIGH
+  MEDIUM
+  LOW
+  URGENT
+}
+
+enum NotificationType {
+  TASK_ASSIGNED
+  TASK_MENTIONED
+  TASK_STATUS_CHANGED
+  TASK_PRIORITY_CHANGED
+  TASK_COMMENTED
+  TASK_DUE_SOON
+  PROJECT_ADDED
+  TEAM_ADDED
+  COMPANY_ADDED
+  TIME_LOGGED
+}
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model User {
+  id          Int      @id @default(autoincrement())
+  name        String?
+  phoneNumber String   @unique
+  password    String
+  avatar          String?
+  preferredLocale String   @default("en")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // relations
+  companyMember CompanyMember[]
+  teamMember    TeamMember[]
+  projectMember ProjectMember[]
+  comments      TaskComment[]
+  history       TaskHistory[]
+  notifications Notification[]
+  attachments   TaskAttachment[]
+  timeEntries   TimeEntry[]
+
+  assignedTask Task[] @relation("assignedTask")
+  reportedTask Task[] @relation("reportedTask")
+
+  createdCompanies   Company[]           @relation("companyCreator")
+  createdProjects    Project[]           @relation("projectCreator")
+  projectMemberRates ProjectMemberRate[]
+}
+
+model Company {
+  id        Int      @id @default(autoincrement())
+  name      String
+  slug      String   @unique
+  creatorId Int?
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  // relations
+  creator        User?           @relation("companyCreator", fields: [creatorId], references: [id], onDelete: SetNull)
+  companyMembers CompanyMember[]
+  teams          Team[]
+  projects       Project[]
+  labels         Label[]
+
+  @@index([creatorId])
+}
+
+model CompanyMember {
+  id        Int               @id @default(autoincrement())
+  userId    Int
+  companyId Int
+  role      CompanyMemberRole @default(MEMBER)
+  joinedAt  DateTime          @default(now())
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, userId])
+  @@index([userId])
+  @@index([companyId])
+}
+
+model Team {
+  id        Int      @id @default(autoincrement())
+  name      String
+  companyId Int
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  company  Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  projects Project[]
+  members  TeamMember[]
+
+  @@index([companyId])
+}
+
+model TeamMember {
+  id       Int            @id @default(autoincrement())
+  teamId   Int
+  userId   Int
+  role     TeamMemberRole @default(MEMBER)
+  joinedAt DateTime       @default(now())
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+  @@index([userId])
+  @@index([teamId])
+}
+
+model Project {
+  id                Int       @id @default(autoincrement())
+  name              String
+  description       String?
+  companyId         Int
+  teamId            Int
+  deadLine          DateTime?
+  creatorId         Int?
+  /// Hourly pay rate for this project stored in cents (e.g. 5000 = $50.00).
+  /// Only company creator (OWNER) or project creator can set this field. NULL means no rate configured.
+  hourlyRateCents   Int?
+  /// ISO-4217 currency code, default USD.
+  currency          String    @default("USD")
+  updatedAt         DateTime  @updatedAt
+  createdAt         DateTime  @default(now())
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  team    Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  creator User?   @relation("projectCreator", fields: [creatorId], references: [id], onDelete: SetNull)
+
+  tasks   Task[]
+  sprints Sprint[]
+  members ProjectMember[]
+  timeEntries TimeEntry[]
+  notifications Notification[]
+  memberRates ProjectMemberRate[]
+
+  @@index([companyId])
+  @@index([teamId])
+  @@index([creatorId])
+}
+
+model ProjectMember {
+  id        Int               @id @default(autoincrement())
+  projectId Int
+  userId    Int
+  role      ProjectMemberRole @default(DEVELOPER)
+  joinedAt  DateTime          @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+  @@index([userId])
+  @@index([projectId])
+}
+
+model Sprint {
+  id        Int          @id @default(autoincrement())
+  name      String
+  projectId Int
+  goal      String?
+  startDate DateTime?
+  endDate   DateTime?
+  status    SprintStatus @default(PLANNED)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tasks   Task[]
+
+  @@index([projectId])
+}
+
+model Task {
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String?
+  status      TaskStatus   @default(TODO)
+  priority    TaskPriority @default(MEDIUM)
+  projectId   Int
+  sprintId    Int?
+  assigneeId  Int?
+  reporterId  Int?
+  dueDate     DateTime?
+  storyPoints Int?
+  estimatedMinutes Int?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  project  Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  sprint   Sprint? @relation(fields: [sprintId], references: [id], onDelete: SetNull)
+  assignee User?   @relation("assignedTask", fields: [assigneeId], references: [id])
+  reporter User?   @relation("reportedTask", fields: [reporterId], references: [id])
+
+  comments      TaskComment[]
+  history       TaskHistory[]
+  notifications Notification[]
+  attachments   TaskAttachment[]
+  labels        TaskLabel[]
+  timeEntries   TimeEntry[]
+
+  @@index([projectId])
+  @@index([sprintId])
+  @@index([assigneeId])
+  @@index([reporterId])
+  @@index([status])
+}
+
+model TaskHistory {
+  id        Int      @id @default(autoincrement())
+  taskId    Int
+  userId    Int
+  action    String
+  field     String?
+  oldValue  String?
+  newValue  String?
+  createdAt DateTime @default(now())
+
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+  @@index([userId])
+}
+
+model TaskComment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  taskId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+  @@index([userId])
+}
+
+model TaskAttachment {
+  id        Int      @id @default(autoincrement())
+  taskId    Int
+  userId    Int
+  fileName  String
+  fileUrl   String
+  fileSize  Int?
+  mimeType  String?
+  createdAt DateTime @default(now())
+
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+}
+
+model Label {
+  id        Int    @id @default(autoincrement())
+  name      String
+  color     String @default("#6366f1")
+  companyId Int
+
+  company Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  tasks   TaskLabel[]
+
+  @@unique([companyId, name])
+  @@index([companyId])
+}
+
+model TaskLabel {
+  taskId  Int
+  labelId Int
+
+  task  Task  @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  label Label @relation(fields: [labelId], references: [id], onDelete: Cascade)
+
+  @@id([taskId, labelId])
+}
+
+model Notification {
+  id        Int              @id @default(autoincrement())
+  title     String
+  message   String
+  type      NotificationType @default(TASK_ASSIGNED)
+  isRead    Boolean          @default(false)
+  userId    Int
+  taskId    Int?
+  projectId Int?
+  createdAt DateTime         @default(now())
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task    Task?    @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  project Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@index([taskId])
+  @@index([projectId])
+}
+
+model TimeEntry {
+  id                  Int      @id @default(autoincrement())
+  userId              Int
+  projectId           Int
+  taskId              Int?
+  duration            Int      // Duration in minutes (> 0)
+  date                DateTime @default(now())
+  description         String?
+  /// Snapshot of the project hourlyRateCents at the time this entry was created.
+  /// NULL when no rate was set on the project at logging time.
+  /// This value NEVER changes after creation — it preserves historical earnings.
+  rateSnapshotCents   Int?
+  /// Pre-computed earnings in cents: (duration / 60) * rateSnapshotCents.
+  /// NULL when rateSnapshotCents is NULL.
+  earningsCents       Int?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  task    Task?   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([projectId])
+  @@index([taskId])
+  @@index([date])
+}
+
+model ProjectMemberRate {
+  id              Int      @id @default(autoincrement())
+  projectId       Int
+  userId          Int
+  hourlyRateCents Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+  @@index([projectId])
+  @@index([userId])
+}

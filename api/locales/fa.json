@@ -1,0 +1,117 @@
+{
+  "auth": {
+    "loginSuccess": "ورود با موفقیت انجام شد",
+    "registerSuccess": "ثبت‌نام کاربر با موفقیت انجام شد",
+    "invalidCredentials": "شماره موبایل یا رمز عبور نامعتبر است",
+    "userNotFound": "کاربری با این مشخصات یافت نشد",
+    "userAlreadyExists": "کاربری با این شماره موبایل قبلاً ثبت‌نام کرده است",
+    "tokenExpired": "نشست کاربری شما منقضی شده است. لطفاً دوباره وارد شوید.",
+    "invalidToken": "توکن احراز هویت نامعتبر است. لطفاً دوباره وارد شوید.",
+    "unauthorized": "توکن احراز هویت ارسال نشده است. لطفاً وارد شوید.",
+    "userNoLongerExists": "حساب کاربری مربوط به این توکن دیگر وجود ندارد.",
+    "verificationCodeSent": "کد تأیید با موفقیت ارسال شد",
+    "codeResendSuccess": "کد تأیید مجدداً ارسال شد",
+    "passwordResetSuccess": "رمز عبور با موفقیت تغییر یافت",
+    "invalidVerificationCode": "کد تأیید نامعتبر یا منقضی شده است",
+    "configMissing": "تنظیمات احراز هویت سرور ناقص است."
+  },
+  "validation": {
+    "queryRequired": "عبارت جستجو الزامی است",
+    "pageInvalid": "شماره صفحه باید یک عدد صحیح بزرگتر از صفر باشد",
+    "limitInvalid": "تعداد در هر صفحه باید عددی بین ۱ تا ۱۰۰ باشد",
+    "idInvalid": "شناسه باید یک عدد صحیح معتبر باشد",
+    "nameRequired": "نام الزامی است",
+    "nameLength": "نام باید بین ۲ تا ۵۰ کاراکتر باشد",
+    "nameCannotBeEmpty": "نام نمی‌تواند خالی باشد",
+    "phoneRequired": "شماره موبایل الزامی است",
+    "phoneInvalid": "شماره موبایل نامعتبر است (مثال: 09123456789)",
+    "passwordRequired": "رمز عبور الزامی است",
+    "passwordLength": "رمز عبور باید حداقل ۶ کاراکتر باشد",
+    "codeRequired": "کد تأیید الزامی است",
+    "codeLength": "کد تأیید باید بین ۴ تا ۶ رقم باشد",
+    "companyNameRequired": "نام شرکت الزامی است",
+    "companyNameLength": "نام شرکت باید بین ۲ تا ۱۰۰ کاراکتر باشد",
+    "roleInvalid": "نقش باید یکی از مقادیر OWNER یا ADMIN یا MEMBER باشد",
+    "sortInvalid": "پارامتر مرتب‌سازی باید متنی باشد",
+    "localeInvalid": "زبان باید 'en' یا 'fa' باشد",
+    "validationFailed": "اعتبارسنجی اطلاعات با خطا مواجه شد"
+  },
+  "users": {
+    "fetchedSuccess": "اطلاعات کاربر با موفقیت دریافت شد",
+    "profileUpdatedSuccess": "پروفایل با موفقیت به‌روزرسانی شد",
+    "userDeletedSuccess": "حساب کاربری با موفقیت حذف شد",
+    "notFound": "کاربر یافت نشد"
+  },
+  "company": {
+    "createdSuccess": "شرکت با موفقیت ایجاد شد",
+    "updatedSuccess": "اطلاعات شرکت با موفقیت به‌روزرسانی شد",
+    "deletedSuccess": "شرکت با موفقیت حذف شد",
+    "notFound": "شرکت یافت نشد",
+    "memberAdded": "عضو جدید با موفقیت به شرکت اضافه شد",
+    "memberRemoved": "عضو موردنظر با موفقیت از شرکت حذف شد",
+    "roleUpdated": "نقش عضو در شرکت با موفقیت به‌روزرسانی شد",
+    "leftSuccess": "خروج از شرکت با موفقیت انجام شد",
+    "cannotLeaveAsOwner": "مالک شرکت نمی‌تواند بدون انتقال مالکیت از شرکت خارج شود"
+  },
+  "projects": {
+    "fetchedSuccess": "پروژه‌ها با موفقیت دریافت شدند",
+    "createdSuccess": "پروژه با موفقیت ایجاد شد",
+    "updatedSuccess": "پروژه با موفقیت به‌روزرسانی شد",
+    "deletedSuccess": "پروژه با موفقیت حذف شد",
+    "notFound": "پروژه یافت نشد",
+    "memberAdded": "عضو جدید با موفقیت به پروژه اضافه شد",
+    "memberRemoved": "عضو با موفقیت از پروژه حذف شد"
+  },
+  "teams": {
+    "fetchedSuccess": "تیم‌ها با موفقیت دریافت شدند",
+    "createdSuccess": "تیم با موفقیت ایجاد شد",
+    "updatedSuccess": "تیم با موفقیت به‌روزرسانی شد",
+    "deletedSuccess": "تیم با موفقیت حذف شد",
+    "notFound": "تیم یافت نشد",
+    "memberAdded": "عضو جدید با موفقیت به تیم اضافه شد",
+    "memberRemoved": "عضو با موفقیت از تیم حذف شد"
+  },
+  "tasks": {
+    "fetchedSuccess": "وظایف با موفقیت دریافت شدند",
+    "createdSuccess": "وظیفه با موفقیت ایجاد شد",
+    "updatedSuccess": "وظیفه با موفقیت به‌روزرسانی شد",
+    "deletedSuccess": "وظیفه با موفقیت حذف شد",
+    "notFound": "وظیفه یافت نشد",
+    "invalidStatus": "وضعیت وظیفه نامعتبر است",
+    "invalidPriority": "اولویت وظیفه نامعتبر است"
+  },
+  "timeTracking": {
+    "createdSuccess": "گزارش زمان با موفقیت ثبت شد",
+    "updatedSuccess": "گزارش زمان با موفقیت به‌روزرسانی شد",
+    "deletedSuccess": "گزارش زمان با موفقیت حذف شد",
+    "notFound": "گزارش زمانی یافت نشد",
+    "invalidDuration": "مدت زمان باید یک عدد صحیح مثبت بر حسب دقیقه باشد",
+    "projectRequired": "شناسه پروژه الزامی است",
+    "accessDenied": "شما به این پروژه دسترسی ندارید",
+    "cannotModifyOthers": "شما تنها مجاز به ویرایش یا حذف گزارش‌های زمانی خود هستید",
+    "summaryFetched": "خلاصه گزارش‌های زمانی با موفقیت دریافت شد",
+    "fetchedSuccess": "گزارش‌های زمانی با موفقیت دریافت شدند"
+  },
+  "comments": {
+    "createdSuccess": "نظر با موفقیت ثبت شد",
+    "updatedSuccess": "نظر با موفقیت ویرایش شد",
+    "deletedSuccess": "نظر با موفقیت حذف شد",
+    "notFound": "نظر مورد نظر یافت نشد",
+    "contentRequired": "متن نظر نمی‌تواند خالی باشد",
+    "cannotModifyOthers": "شما تنها مجاز به ویرایش یا حذف نظرات خود هستید",
+    "fetchedSuccess": "نظرات با موفقیت دریافت شدند"
+  },
+  "taskHistory": {
+    "fetchedSuccess": "تاریخچه تغییرات وظیفه با موفقیت دریافت شد"
+  },
+  "notifications": {
+    "fetchedSuccess": "اعلان‌ها با موفقیت دریافت شدند",
+    "markedReadSuccess": "اعلان به عنوان خوانده شده علامت‌گذاری شد",
+    "markedAllReadSuccess": "تمامی اعلان‌ها خوانده شدند",
+    "notFound": "اعلان یافت نشد"
+  },
+  "system": {
+    "healthy": "سامانه فعال و پایدار است",
+    "internalServerError": "خطای داخلی سرور رخ داد. لطفاً بعداً تلاش فرمایید."
+  }
+}
